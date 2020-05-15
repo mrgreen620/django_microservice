@@ -6,13 +6,33 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
+#jobs:
 
-  build:
+#  build:
 
-    runs-on: ubuntu-latest
+#    runs-on: ubuntu-latest
 
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Build the Docker image
+#      run: docker build -t test .
+
+
+build_and_pub:
+  
+    runs-on: [ubuntu-latest]
+    env:
+      LOGIN: ${{ secrets.DOCKER_LOGIN }}
+      NAME: ${{ secrets.DOCKER_NAME }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build -t test .
+      - name: Login to docker.io
+        # Сначала мы логинимся в docker.io
+        run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+          # Чекаутим код
+      - uses: actions/checkout@master
+      - name: Build image
+          # Собираем image и называем его так как указано в hub.docker т.е. login/repository:version
+        run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11} -f Dockerfile .
+      - name: Push image to docker.io
+          # Пушим образ в registry
+        run: docker push $LOGIN/$NAME:${GITHUB_REF:11}
