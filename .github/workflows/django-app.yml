@@ -7,19 +7,22 @@ on:
     branches: [ master ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
-     steps:
+    steps:
     - uses: actions/checkout@master
-    - name: Build the Docker image
+    - name: Copy directory
       run: cd /app
+    - name: Start django  
       run: sudo docker-compose run web django-admin startproject app .
+    - name: watch files
       run: ls -l
+    - name: watch active dockers
       run: docker ps
+    - name: test web-server
       run: curl http://localhost:8000
+    - name: down docker
       run: docker-compose down
 
 
