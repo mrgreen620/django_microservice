@@ -14,20 +14,21 @@ jobs:
     - uses: actions/checkout@master
     - name: Copy directory
       run: cd app/
-    - name: Start django  
+    - name: create django project 
       run: sudo docker-compose run web django-admin startproject app .
     - name: watch files
       run: ls -l
+    - name: show docker image
+      run: docker images
     - name: Change prava
       run: sudo chown -R $USER:$USER .
-    - name: docker up
-      run: docker-compose up
-    - name: watch active dockers
-      run: docker ps
-    - name: test web-server
-      run: curl http://localhost:8000
-    - name: down docker
-      run: docker-compose down
+    - name: Login to docker.io
+        # Сначала мы логинимся в docker.io
+      run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+    - name: Push image to docker.io
+          # Пушим образ в registry
+      run: docker push $LOGIN/$NAME:${GITHUB_REF:11}
+
 
 
 #  build_and_pub:
