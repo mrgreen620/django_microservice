@@ -18,6 +18,10 @@ jobs:
       run: sudo docker-compose run web django-admin startproject app .
     - name: watch files
       run: ls -l
+    - name: Change prava
+      run: sudo chown -R $USER:$USER .
+    - name: docker up
+      run: docker-compose up
     - name: watch active dockers
       run: docker ps
     - name: test web-server
