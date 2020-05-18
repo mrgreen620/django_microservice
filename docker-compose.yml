@@ -3,7 +3,7 @@ version: "2.1"
 
 
 services:
-  web:
+  $LOGIN/$NAME:${GITHUB_REF:11}:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     ports:
