@@ -15,7 +15,7 @@ jobs:
     - name: Copy directory
       run: cd app/
     - name: create django project 
-      run: sudo docker-compose run web django-admin startproject app .
+      run: sudo docker-compose run $LOGIN/$NAME:${GITHUB_REF:11} django-admin startproject app .
     - name: watch files
       run: ls -l
     - name: show docker image
