@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Copy directory
-      run: cd /app
+      run: cd app/
     - name: Start django  
       run: sudo docker-compose run web django-admin startproject app .
     - name: watch files
