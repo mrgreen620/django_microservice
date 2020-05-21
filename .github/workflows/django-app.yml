@@ -15,6 +15,9 @@ jobs:
     - uses: actions/checkout@master
     - name: Copy directory
       run: cd app/
+    - name: Login to docker.io
+        # Сначала мы логинимся в docker.io
+      run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     - name: build docker
       run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11} -f Dockerfile .
     - name: watch files
@@ -23,9 +26,6 @@ jobs:
       run: docker images
     - name: Change prava
       run: sudo chown -R $USER:$USER .
-    - name: Login to docker.io
-        # Сначала мы логинимся в docker.io
-      run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     - name: Push image to docker.io
           # Пушим образ в registry
       run: docker push $LOGIN/$NAME:${GITHUB_REF:11}
