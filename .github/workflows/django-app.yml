@@ -10,13 +10,16 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+    env:
+      LOGIN: ${{ secrets.DOCKER_LOGIN }}
+      NAME: ${{ secrets.DOCKER_NAME }}
 
     steps:
     - uses: actions/checkout@master
     - name: Copy directory
       run: cd app/
     - name: Login to docker.io
-        # Сначала мы логинимся в docker.io
+        # Сначала мы логинимся в docker.io#      
       run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     - name: build docker
       run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11} -f Dockerfile .
@@ -34,7 +37,7 @@ jobs:
 
 #  build_and_pub:
   
-#    runs-on: [ubuntu-latest]
+#   runs-on: [ubuntu-latest]
 #    env:
 #      LOGIN: ${{ secrets.DOCKER_LOGIN }}
 #      NAME: ${{ secrets.DOCKER_NAME }}
