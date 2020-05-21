@@ -6,4 +6,4 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
 COPY . /app/
 CMD ["django-admin", "startproject", "app"]
-CMD ["python" "manage.py" "runserver"]
+CMD ["python", "manage.py", "runserver"]
